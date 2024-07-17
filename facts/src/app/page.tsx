@@ -3,6 +3,7 @@ import { getRandomFact, addFact, getFact } from "./database";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { logger } from "@/app/logger";
 
 export default async function Home({
   searchParams,
@@ -14,6 +15,8 @@ export default async function Home({
   const fact = searchParams.fact
     ? await getFact(+searchParams.fact)
     : await getRandomFact();
+
+    logger.info(fact);
 
   return (
     <main className="flex min-h-[100dvh] flex-col items-center justify-center bg-gray-100 px-4 py-12 dark:bg-gray-900">
