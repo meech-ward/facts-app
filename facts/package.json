@@ -19,7 +19,8 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "@aws-sdk/client-ec2": "^3.627.0"
+    "@aws-sdk/client-ec2": "^3.627.0",
+    "winston": "^3.13.1"
   },
   "devDependencies": {
     "@types/node": "^20",
