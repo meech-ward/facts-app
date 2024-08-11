@@ -40,8 +40,8 @@ export default async function Page() {
                 <div>{computeInstance.id}</div>
               </div>
               <div className="grid gap-1">
-                <div className="text-sm font-medium">Instance Type</div>
-                <div>{computeInstance.type}</div>
+                <div className="text-sm font-medium">Availability Zone</div>
+                <div>{computeInstance.availabilityZone}</div>
               </div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
@@ -54,56 +54,7 @@ export default async function Page() {
                 <div>{computeInstance.privateIpAddress}</div>
               </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="grid gap-1">
-                <div className="text-sm font-medium">VPC</div>
-                <div>{computeInstance.vpcId}</div>
-              </div>
-              <div className="grid gap-1">
-                <div className="text-sm font-medium">Subnet</div>
-                <div>
-                  {computeInstance.subnetId} 
-                </div>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="grid gap-1">
-                <div className="text-sm font-medium">Availability Zone</div>
-                <div>{computeInstance.availabilityZone}</div>
-              </div>
-              <div className="grid gap-1">
-                <div className="text-sm font-medium">Launch Time</div>
-                <div>{computeInstance.launchTime?.toLocaleString()}</div>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="grid gap-1">
-                <div className="text-sm font-medium">Image</div>
-                <div>
-                  {computeInstance.imageId} 
-                </div>
-              </div>
-              <div className="grid gap-1">
-                <div className="text-sm font-medium">Platform</div>
-                <div>{computeInstance.platform}</div>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="grid gap-1">
-                <div className="text-sm font-medium">Architecture</div>
-                <div>{computeInstance.architecture}</div>
-              </div>
-              <div className="grid gap-1">
-                <div className="text-sm font-medium">Security Groups</div>
-                <div>
-                  {computeInstance.securityGroups?.map((sg) => (
-                    <div key={sg}>
-                      {sg}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+
           </CardContent>
         </Card>
         <Card>

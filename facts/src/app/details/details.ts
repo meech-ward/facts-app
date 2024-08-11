@@ -1,7 +1,4 @@
-import { EC2Client, DescribeInstancesCommand } from "@aws-sdk/client-ec2";
 import os from 'os';
-
-const ec2Client = new EC2Client();
 
 export async function getInstanceDetails() {
   try {
@@ -9,34 +6,26 @@ export async function getInstanceDetails() {
     const instanceId = await fetch('http://169.254.169.254/latest/meta-data/instance-id')
       .then(response => response.text());
 
-    const command = new DescribeInstancesCommand({
-      InstanceIds: [instanceId],
-    });
+    // Get public IPv4 address from instance metadata
+    const publicIpAddress = await fetch('http://169.254.169.254/latest/meta-data/public-ipv4')
+      .then(response => response.text());
 
-    const response = await ec2Client.send(command);
-    const instance = response.Reservations?.[0]?.Instances?.[0];
+    // Get private IPv4 address from instance metadata
+    const privateIpAddress = await fetch('http://169.254.169.254/latest/meta-data/local-ipv4')
+      .then(response => response.text());
 
-    if (!instance) {
-      throw new Error('Instance not found');
-    }
+    // Get availability zone from instance metadata
+    const availabilityZone = await fetch('http://169.254.169.254/latest/meta-data/placement/availability-zone')
+      .then(response => response.text());
 
     const totalMemory = os.totalmem();
     const freeMemory = os.freemem();
 
     return {
-      id: instance.InstanceId,
-      type: instance.InstanceType,
-      publicIpAddress: instance.PublicIpAddress,
-      privateIpAddress: instance.PrivateIpAddress,
-      vpcId: instance.VpcId,
-      subnetId: instance.SubnetId,
-      availabilityZone: instance.Placement?.AvailabilityZone,
-      state: instance.State?.Name,
-      launchTime: instance.LaunchTime,
-      imageId: instance.ImageId,
-      platform: instance.Platform || 'linux',
-      architecture: instance.Architecture,
-      securityGroups: instance.SecurityGroups?.map(sg => sg.GroupId),
+      id: instanceId,
+      publicIpAddress,
+      privateIpAddress,
+      availabilityZone,
       totalMemory: `${(totalMemory / 1024 / 1024 / 1024).toFixed(2)} GB`,
       freeMemory: `${(freeMemory / 1024 / 1024 / 1024).toFixed(2)} GB`,
       usedMemory: `${((totalMemory - freeMemory) / 1024 / 1024 / 1024).toFixed(2)} GB`,
